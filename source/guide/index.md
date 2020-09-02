@@ -10,7 +10,7 @@ Datalabs-annotator is a self-contained Web application for multi-typed data labe
 
 Here are the main concepts behind Datalabs-annotator's workflow:
 
-<div style="margin:auto; text-align:center; width:100%"><img src="/images/labeling-scheme.png" style="opacity: 0.7"/></div>
+<div style="margin:auto; text-align:center; width:100%"><img src="/images/datalabs-annotator-ov.jpg" style="opacity: 0.7"/></div>
 
 - **Tasks** represent an individual dataset items. Datalabs-annotator is a multi-type labeling tool - you can [import](tasks.html) either text, image, audio URL, HTML text or any number and combination of these data resources.
 - **Completions** are the labeling results in [JSON format](export.html#Completion-fields). They could be [exported](export.html) in various common formats, ready to use in machine learning pipelines.
@@ -46,13 +46,13 @@ Datalabs-annotator is supported for Python 3.5 or greater, running on Linux, Win
 
 To install Datalabs-annotator via pip, you need Python>=3.5 and run:
 ```bash
-pip install label-studio
+pip install datalabs-annotator
 ```
 
 Then launch a new project which stores all labeling data in a local directory `my_project`:
 
 ```bash
-label-studio start my_project --init
+datalabs-annotator start my_project --init
 ```
 The default browser opens automatically at [http://localhost:8080](http://localhost:8080).
 
@@ -63,7 +63,7 @@ Datalabs-annotator is also distributed as a docker container. Make sure you have
 
 Install and start Datalabs-annotator at [http://localhost:8080](http://localhost:8080) storing all labeling data in `./my_project` directory:
 ```bash
-docker run --rm -p 8080:8080 -v `pwd`/my_project:/label-studio/my_project --name label-studio heartexlabs/label-studio:latest
+docker run --rm -p 8080:8080 -v `pwd`/my_project:/datalabs-annotator/my_project --name datalabs-annotator heartexlabs/datalabs-annotator:latest
 ```
 
 > Note: if `./my_project` the folder exists, an exception will be thrown. Please delete this folder or use `--force` option.
@@ -72,12 +72,12 @@ docker run --rm -p 8080:8080 -v `pwd`/my_project:/label-studio/my_project --name
 You can override the default startup command by appending any of [available command line arguments]():
 
 ```bash
-docker run -p 8080:8080 -v `pwd`/my_project:/label-studio/my_project --name label-studio heartexlabs/label-studio:latest label-studio start my_project --init --force --template image_mixedlabel
+docker run -p 8080:8080 -v `pwd`/my_project:/datalabs-annotator/my_project --name datalabs-annotator heartexlabs/datalabs-annotator:latest datalabs-annotator start my_project --init --force --template image_mixedlabel
 ```
 
 If you want to build a local image, run:
 ```bash
-docker build -t heartexlabs/label-studio:latest .
+docker build -t heartexlabs/datalabs-annotator:latest .
 ```
 
 ### Running from source
@@ -85,15 +85,15 @@ docker build -t heartexlabs/label-studio:latest .
 If you want to use nightly builds, or extend the functionality, consider to download the source code using Git and run Datalabs-annotator locally:
 
 ```bash
-git clone https://github.com/heartexlabs/label-studio.git
-cd label-studio
+git clone https://github.com/heartexlabs/datalabs-annotator.git
+cd datalabs-annotator
 python setup.py develop
 ```
 
 Then create a new project, it stores all labeling data in a local directory `my_project`:
 
 ```bash
-label-studio start my_project --init
+datalabs-annotator start my_project --init
 ```
 The default browser will open automatically at [http://localhost:8080](http://localhost:8080).
 
@@ -105,20 +105,20 @@ You can start Datalabs-annotator in _multisession mode_ - each browser session c
 In order to launch Datalabs-annotator in multisession mode and keep all projects in a separate directory `session_projects`, run
 
 ```bash
-label-studio start-multi-session --root-dir ./session_projects
+datalabs-annotator start-multi-session --root-dir ./session_projects
 ```
 
 
 ## Command line arguments
 
-You can specify input tasks, project config, machine learning backend and other options via the command line interface. Run `label-studio start --help` to see all available options.
+You can specify input tasks, project config, machine learning backend and other options via the command line interface. Run `datalabs-annotator start --help` to see all available options.
 
 
 ### Auth with login and password
 You can restrict the access for LS instance with the basic HTTP auth.
 
 ```
-label-studio start my_project --username user --password pwd 
+datalabs-annotator start my_project --username user --password pwd 
 ```
 
 Or put `username` and `password` in the project config.json.
@@ -140,7 +140,7 @@ It will be the same username and password for all the users.
 Use `--use-gevent` option on start to enable WSGI server. It wraps around app.run with gevent's WSGIServer to enable the server to better handle concurrent requests.
 
 ```
-label-studio start test --use-gevent
+datalabs-annotator start test --use-gevent
 ```
 
 ### HTTPS & SSL
@@ -154,5 +154,5 @@ openssl req -newkey rsa:2048 -nodes -keyout key.pem -x509 -days 365 -out certifi
 Than you need to use `--cert` and `--key` option on start:
 
 ```
-label-studio start test --cert certificate.pem --key key.pem
+datalabs-annotator start test --cert certificate.pem --key key.pem
 ```
